@@ -1,13 +1,15 @@
+// import deecision tree
 import { DecisionTree } from "./libraries/decisiontree.js"
 
+// load model
 function loadSavedModel() {
     fetch("./model.json")
         .then((response) => response.json())
         .then((model) => modelLoaded(model))
 }
 
-
 function modelLoaded(model) {
+    // define features
     let decisionTree = new DecisionTree(model)
     let capshape = document.getElementById('capShape')
     let capsurface = document.getElementById('capSurface')
