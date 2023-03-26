@@ -18,7 +18,7 @@ function modelLoaded(model) {
     let gillsize = document.getElementById('gillSize')
     let gillcolor = document.getElementById('gillColor')
 
-    // test om te zien of het werkt
+    // test to see if the model works
     let mushroom = { Capshape: capshape, Capsurface: capsurface, Capcolor: capcolor, Odor: odor, Gillattachment: gillattachment, Gillspacing: gillspacing, Gillsize: gillsize, Gillcolor: gillcolor}
     let prediction = decisionTree.predict(mushroom)
     console.log("predicted " + prediction)
