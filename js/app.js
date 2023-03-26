@@ -1,5 +1,5 @@
-import { DecisionTree } from "./libraries/decisiontree.js"
-import { VegaTree } from "./libraries/vegatree.js"
+import { DecisionTree } from "../libraries/decisiontree.js"
+import { VegaTree } from "../libraries/vegatree.js"
 
 //
 // DATA
@@ -14,14 +14,14 @@ let unedibleAndEdible = 0;
 let unedibleAndUnedible = 0;
 
 //
-// laad csv data als json
+// load csv data as json
 //
 function loadData() {
     Papa.parse(csvFile, {
         download: true,
         header: true,
         dynamicTyping: true,
-        complete: results => trainModel(results.data)//console.log(results.data),   // gebruik deze data om te trainen
+        complete: results => trainModel(results.data)//console.log(results.data),   // use this data to train the model
     })
 }
 
@@ -29,36 +29,36 @@ function loadData() {
 // MACHINE LEARNING - Decision Tree
 //
 function trainModel(data) {
-    // todo : splits data in traindata en testdata
+    // todo : split data in traindata and testdata
     data.sort(() => (Math.random() - 0.5))
     let trainData = data.slice(0, Math.floor(data.length * 0.8))
     let testData = data.slice(Math.floor(data.length * 0.8) + 1)
 
-    // maak het algoritme aan
+    // create algorithm
     let decisionTree = new DecisionTree({
         ignoredAttributes: ignored,
         trainingSet: trainData,
         categoryAttr: trainingLabel
     })
 
-    // Teken de boomstructuur - DOM element, breedte, hoogte, decision tree
+    // draw tree structure - DOM element, width, height, decision tree
     let json = decisionTree.toJSON()
     let visual = new VegaTree('#view', 2300, 1000, json)
     
 
-    // todo : maak een prediction met een sample uit de testdata
+    // todo : make a prediction with a sample from testdata
 
     for (let i = 0; i < testData.length; i++) {
     
         let mushroom = testData[i]
-        // kopie van passenger maken, zonder het label
+        // create copy of passenger, without label
         const mushroomNoLabel = Object.assign({}, mushroom)
         delete mushroomNoLabel.class
     
         // prediction
         let prediction = decisionTree.predict(mushroomNoLabel)
     
-        // vergelijk de prediction met het echte label
+        // compare prediction with real label
         if (prediction == mushroom.class) {
             console.log("Deze voorspelling is goed gegaan!")
             amountCorrect = amountCorrect + 1;
